@@ -1,0 +1,67 @@
+// This #include statement was automatically added by the Particle IDE.
+#include <Adafruit_IO_Particle.h>
+#include "Adafruit_IO_Client.h"
+
+// This #include statement was automatically added by the Particle IDE.
+#include <JsonParserGeneratorRK.h>
+
+#define sensorPin 5
+#define AIO_KEY "aio_rrvk343LMO8B3hTCNBwsxTU55aiR"       // Adafruit IO AIO Key
+TCPClient client;                                        // TCP Client used by Adafruit IO library
+ 
+// Create the AIO client object
+Adafruit_IO_Client  AIOClient = Adafruit_IO_Client(client, AIO_KEY);
+ 
+// Create a feed object to send and get data
+Adafruit_IO_Feed    testFeed = AIOClient.getFeed("snowdepth");
+
+
+SystemSleepConfiguration config;
+
+long distance = 0;
+long duration = 0;
+
+//void createEventPayload(int depth);
+
+void setup() {
+pinMode(sensorPin, INPUT);
+Serial.begin(9600);
+
+    // Start the Adafruit IO Client
+    AIOClient.begin();
+    
+    config.mode(SystemSleepMode::ULTRA_LOW_POWER)
+      .duration(30min);
+
+}
+
+
+void read_sensor() {
+duration = pulseIn(sensorPin, HIGH);
+distance = duration / 58;
+}
+
+
+void loop() {
+
+int depth;
+    
+System.sleep(config);
+
+duration = pulseIn(sensorPin, HIGH);
+depth = duration / 147;
+testFeed.send(depth);
+createDepthPayload(depth);
+//delay(10000);
+
+
+}
+
+void createDepthPayload(int depth)
+{
+    JsonWriterStatic<256> jw;
+    {
+    jw.insertKeyValue("snow depth", depth);
+    }
+    Particle.publish("env-vals", jw.getBuffer(), PRIVATE);
+}
