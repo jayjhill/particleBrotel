@@ -6,7 +6,7 @@
 #include <JsonParserGeneratorRK.h>
 
 #define sensorPin 5
-#define AIO_KEY "aio_agkm5746kntLYndYDwYdVej1fgdl"       // Adafruit IO AIO Key
+#define AIO_KEY ""       // Adafruit IO AIO Key
 TCPClient client;                                        // TCP Client used by Adafruit IO library
  
 // Create the AIO client object
