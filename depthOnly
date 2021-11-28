@@ -6,7 +6,7 @@
 #include <JsonParserGeneratorRK.h>
 
 #define sensorPin 5
-#define AIO_KEY ""       // Adafruit IO AIO Key
+#define AIO_KEY "aio_agkm5746kntLYndYDwYdVej1fgdl"       // Adafruit IO AIO Key
 TCPClient client;                                        // TCP Client used by Adafruit IO library
  
 // Create the AIO client object
@@ -14,7 +14,6 @@ Adafruit_IO_Client  AIOClient = Adafruit_IO_Client(client, AIO_KEY);
  
 // Create a feed object to send and get data
 Adafruit_IO_Feed    testFeed = AIOClient.getFeed("snowdepth");
-
 
 SystemSleepConfiguration config;
 
@@ -43,16 +42,22 @@ distance = duration / 58;
 
 
 void loop() {
+    
 
+
+
+int depthRaw;
 int depth;
     
-System.sleep(config);
+//System.sleep(config);
 
 duration = pulseIn(sensorPin, HIGH);
-depth = duration / 147;
+depthRaw = duration / 147;
+depth = 151 - depthRaw;
 testFeed.send(depth);
 createDepthPayload(depth);
-//delay(10000);
+//Cellular.off();
+delay(900000);
 
 
 }
