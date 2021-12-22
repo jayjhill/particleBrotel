@@ -2,7 +2,6 @@
 #include <Adafruit_IO_Particle.h>
 #include "Adafruit_IO_Client.h"
 
-// This #include statement was automatically added by the Particle IDE.
 #include <JsonParserGeneratorRK.h>
 
 #define sensorPin 5
